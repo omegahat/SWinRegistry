@@ -1,0 +1,156 @@
+<article
+         xmlns:r="http://www.r-project.org"
+         xmlns:c="http://www.c.org"
+	 xmlns:s="http://cm.bell-labs.com/stat/S4"
+         xmlns:python="http://www.python.org"
+         xmlns:perl="http://www.perl.org"
+         xmlns:com="http://www.microsoft.com"
+	 xmlns:omegahat="http://www.omegahat.org"
+         xmlns:vb="http://www.visualbasic.com"
+         xmlns:bioc="http://www.bioconductor.org"
+         xmlns:java="http://www.java.com"
+>
+<articleinfo>
+ <title>An S-language interface to the Windows Registry</title>
+ <authorgroup>
+  <author>
+    <firstname>Duncan</firstname>
+    <surname>Temple Lang</surname>
+    <affiliation><ulink url="http://cm.bell-labs.com/stat/duncan">Statistic and Data Mining Resarch, Bell
+    Labs</ulink></affiliation>
+  </author>
+ </authorgroup>
+ <date/>
+</articleinfo>
+
+
+This package provides a basic interface to the Windows registry.
+There are S functions and C routines for basic investigation of the
+contents of the registry, allowing one to find out the names of the
+sub-keys and the names of the keys that contain actual values.  It
+also allows one, of course, to retrieve the value of a particular key
+and to set the value of a key, including create a new one.
+
+<para/> 
+
+There are numerous facilities that we could add from the Windows API,
+but have not done so -- yet!  Please ask if you need more
+functionality added.  Ideally, please send some code that implements
+it also and I will add it to the package so that there is a single
+package which has all the functionality.
+
+
+<section>
+<title>Get the names of the Sub-Keys</title>
+
+If one uses the Regedit tool, you can see that there are several
+primary keys under the root key <key>My Computer</key>.  These are the
+builtin keys and are also available in R in the variable
+<s:var>.BuiltinKeys</s:var>.  Notice that each of these has
+a + beside it, indicating that there are sub-keys which you can
+explore if you click on that key.  For instance, if you select
+<key>HKEY_LOCAL_MACHINE</key> you'll see 5 other keys under that named
+<key>HARDWARE</key>, <key>SAM</key>, <key>SECURITY</key>,
+<key>SOFTWARE</key> and <key>SYSTEM</key>.  (This is on my Windows
+2000 machine. Your's may differ slightly.)  All of these except
+<key>SECURITY</key> has sub-keys.  If we select <key>SOFTWARE</key>,
+we get a reasonably length list of different pieces of software
+installed on this machine.  Some of these have sub-keys, and some do
+not.  Since I have Perl installed, it appears in this list and it has
+no sub-keys.  It does however have a value within this key,
+specifically <key>BinDir</key>.  This tells us where on the system the
+Perl executable is located; a useful thing to know.  We can get the
+values of the keys within a "key folder" using the S function
+<s:func>getRegistryKeyValues</s:func>.
+
+<s:code>
+ getRegistryKeyValues("SOFTWARE\\Perl", top = "HKEY_LOCAL_MACHINE")
+</s:code>
+
+Note that we give the top-level key via the argument
+<s:arg>top</s:arg> and then specify the path to the collection of
+values as "SOFTWARE" and then "Perl".  We separate the elements in
+this path using \ which we must specify as \\ in R.
+
+<para/>
+Rather than explicitly specifying the name of the top-level
+key, we can specify the index in the <s:var>.BuiltinKeys</s:var>
+vector.
+<s:code>
+ getRegistryKeyValues("SOFTWARE\\Perl", top = 4)
+</s:code>
+
+<para/>
+Alternatively, we can use a short-hand version by allowing
+partial matching to find the relevant index.
+<s:code>
+ getRegistryKeyValues("SOFTWARE\\Perl", top = "HKEY_LOC")
+</s:code>
+
+<para/>
+In the near future, we will also allow
+a single path
+<s:code>
+ getRegistryKeyValues("HKEY_LOCAL_MACHINE\\SOFTWARE\\Perl")
+</s:code>
+<para/>
+
+What this returns us is a named list.  The names are the keys.  The
+elements are the values in the registry converted as appropriate.
+Strings are converted to S strings, DWORD values are converted to
+integers (currently).
+<note>We'll add more facilities for this soon.</note>
+
+
+But what if we didn't have Regedit?  How would find out the names of
+the sub-keys within a key?  We can always call
+<s:func>getRegistryKeyValues</s:func> but this only identifies
+keys that actually have values.  It omits sub-keys that have sub-keys,
+i.e. key folders.  To find these, we can use the function
+<s:func>getRegistrySubKeyNames</s:func>.
+
+<s:code>
+  getRegistrySubKeyNames("SOFTWARE", 4)
+</s:code>
+
+<s:code>
+<s:prompt/> getRegistrySubKeyNames(c("Control Panel", "Desktop"), top = 3)
+[1] "WindowMetrics"
+</s:code>
+Note from this example that we can also specify the
+elements or terms in a path as separate elements
+of a character vector as opposed to 
+separating them with \\\\.
+</section>
+
+
+<section>
+<title>Setting a value</title>
+
+The function <s:func>setRegistryValue</s:func> allows one to
+set a value within the registry.  One specifies the path to the key
+folder and the name of the key within that folder to identify the
+specific key to be set.  Then one sets
+
+</section>
+
+
+<section>
+<title>Identifying nodes and paths</title>
+
+This package offers a variety of different ways to specify a path in
+the registry to identify a node or key.
+
+
+<s:code>
+ .resolveToplevelRegistryKey(.BuiltinKeys[1], "Control Panel")
+ .resolveToplevelRegistryKey(.BuiltinKeys[1], "Control Panel\\Panel")
+ .resolveToplevelRegistryKey(.BuiltinKeys[1], "HKEY_CLASSES_ROOT\\Control Panel\\Panel")
+ .resolveToplevelRegistryKey(.BuiltinKeys[1], c("HKEY_CLASSES_ROOT", "Control Panel", "Panel"))
+</s:code>
+
+
+</section>
+
+
+</article>

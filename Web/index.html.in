@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>The @PKG_NAME@ package</title>
+<link rel="stylesheet" href="OmegaTech.css">
+</head>
+
+<body>
+<h1>The @PKG_NAME@ package  (version @MAJOR_VERSION@.@MINOR_VERSION@-@PATCH_LEVEL@)</h1>
+
+
+This package provides access to the Windows registry from within R.
+It allows one to query and set values within the registry by
+navigating the registry via its hierarchical paths.  One can also
+create and delete keys.  These facilities can be used when installing
+packages, etc.  to populate the registry without requiring C code in
+those packages. More importantly, it allows us to author R code that
+can find out about user settings, characteristics of installed
+software (e.g. versions, installation directories) and to use those
+directly rather than requiring the user to specify them (again).  One
+of the motivations for developing this was to allow lookup of Class
+IDs for COM to be used with the <a
+href="../RDCOMClient">RDCOMClient</a> package.
+
+
+
+
+
+<h2><a name="Download">Download</a></h2>
+
+We provide both a <a href="@TAR_FILE@">source version</a> and a <a
+href="@ZIP_FILE@">binary version</a> of the package.  
+
+<p>
+
+See <a href="README.html">README.html</a> and <a
+href="INSTALL.html">INSTALL.html</a> for instructions on installing
+and using the package.
+
+<p>
+
+A brief history of the recent changes to the package
+are available in the <a href="Changes.html">Changes.html</a> file.
+
+
+
+<h2><a name="Documentation">Documentation</a></h2>
+
+There are some early attempts to document the package.
+More to come!
+
+<dl>
+  <dt>
+  <li> <a href="Docs/howto.html">Brief Introduction</a>
+  <dd>
+  
+  <dt>
+  <li> <a href="Todo.html">Todo list</a>
+  <dd> List of (some of the) things yet to be done
+       related to this packge!
+      
+</dl>
+
+
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Wed May 28 10:51:45 EDT 2003
+<!-- hhmts end -->
+</body> </html>

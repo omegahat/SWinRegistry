@@ -1,0 +1,13 @@
+Package: @PKG_NAME@
+Version: @MAJOR_VERSION@.@MINOR_VERSION@-@PATCH_LEVEL@
+Date:  @DATE@
+Title: Access to Windows Registry
+Author:  Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Depends: methods
+Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Description:  Provides access from within R to read and write the Windows
+   registry.
+License: GPL
+LazyLoad: yes
+URL:  http://www.omegahat.org/@PKG_NAME@,  http://www.omegahat.org
+      http://www.omegahat.org/bugs

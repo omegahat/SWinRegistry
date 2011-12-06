@@ -1,0 +1,13 @@
+Package: SWinRegistry
+Version: 0.3-4
+Date:  2011/07/20
+Title: Access to Windows Registry
+Author:  Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Depends: methods
+Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Description:  Provides access from within R to read and write the Windows
+   registry.
+License: GPL
+LazyLoad: yes
+URL:  http://www.omegahat.org/SWinRegistry,  http://www.omegahat.org
+      http://www.omegahat.org/bugs

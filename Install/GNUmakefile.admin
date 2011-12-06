@@ -1,0 +1,6 @@
+DESCRIPTION: DESCRIPTION.in configureInstall
+	./configureInstall
+
+configureInstall: Install/configureInstall.in
+	autoconf Install/configureInstall.in > $@
+	chmod +x $@
