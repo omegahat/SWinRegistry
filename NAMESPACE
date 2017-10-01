@@ -1,0 +1,17 @@
+useDynLib(SWinRegistry)
+
+imports(methods)
+
+export(getRegistry)
+export(getRegistryKeyValues, setRegistryValue)
+export(resolveKey)
+export(registryKeyExists, createRegistryKey, deleteRegistryKey, flushRegistryKey)
+export(getRegistrySubKeyNames)
+
+export(expandEnvironmentStrings)
+
+export(createRegistryPath)
+
+exportClasses(RegistryKeyPath, RegistryKeyContents)
+
+exportMethods(coerce, append, resolveKey, setRegistryValue)
