@@ -12,6 +12,6 @@ export(expandEnvironmentStrings)
 
 export(createRegistryPath)
 
-exportClasses(RegistryKeyPath, RegistryKeyContents)
+exportClasses(RegistryKeyPath, RegistryKeyContents, RegistryValuePath)
 
 exportMethods(coerce, append, resolveKey, setRegistryValue)
