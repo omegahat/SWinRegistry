@@ -11,6 +11,36 @@ static HKEY getOpenRegKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey);
 
 SEXP createRKey(SEXP top, SEXP els, Rboolean isValue);
 
+
+
+void
+SWinRegistryError(LONG status, const char *msg)
+{
+    char errBuf[1000];
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, // GetLastError(), 
+                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
+                     errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
+
+    SEXP expr, errMsg, uMsg;
+
+    PROTECT(errMsg = Rf_allocVector(STRSXP, 1));
+    SET_STRING_ELT(errMsg, 0, mkChar(errBuf));
+    PROTECT(uMsg = Rf_allocVector(STRSXP, 1));
+    SET_STRING_ELT(uMsg, 0, mkChar(msg));    
+    PROTECT(expr = Rf_lang4(Rf_install(".WinRegistryError"),
+			    ScalarInteger(status),
+			    errMsg,
+			    uMsg
+			    ));
+			    
+    Rf_eval(expr, R_GlobalEnv);
+    UNPROTECT(3);
+}
+
+
+
+
+
 __declspec(dllexport)
 USER_OBJECT_
 R_createRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
@@ -27,13 +57,9 @@ R_createRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
   status = RegCreateKeyEx(lkey, name, 0, (char *) NULL, 
 			  REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &key, &created);
   if(status != ERROR_SUCCESS) {
-    char errBuf[1000];
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, // GetLastError(), 
-                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
-                     errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
     RegCloseKey(lkey);
-    PROBLEM "Can't create key %s: %s", name, errBuf
-    ERROR;
+    SWinRegistryError(status, "Cannot create key");
+    return(R_NilValue);
   }
 
   ans = NEW_LOGICAL(1);
@@ -318,12 +344,16 @@ getOpenRegKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
   if(name && name[0]) {
     LSTATUS status = RegOpenKeyEx(key, name, 0, KEY_ALL_ACCESS, &lkey);
     if(status != ERROR_SUCCESS) {
+      SWinRegistryError(status, "Can't open key");
+      /*      
       char errBuf[1000];
       FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, //GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);      
       PROBLEM "Can't open key %s (%ld) %s", name, status, errBuf
       ERROR;
+      */
+      return(NULL);
     }
   } else 
     lkey = key;
