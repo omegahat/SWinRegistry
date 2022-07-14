@@ -18,7 +18,7 @@ R_createRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
   HKEY lkey, key;
   DWORD created;
   USER_OBJECT_ ans;
-  char *name;
+  const char *name;
   LONG status = ERROR_SUCCESS;
 
   lkey = getOpenRegKey(hkey, subKey);
@@ -54,7 +54,7 @@ USER_OBJECT_
 R_getRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey, USER_OBJECT_ isError)
 {
   HKEY lkey;
-  char *name = NULL;
+  const char *name = NULL;
   BYTE *buf;
   LONG status;
   DWORD bufSize, type;
@@ -95,7 +95,7 @@ __declspec(dllexport)
 USER_OBJECT_
 R_ExpandEnvironmentStrings(USER_OBJECT_ svalue)
 {
-  char *tmp;
+  const char *tmp;
   USER_OBJECT_ ans;
   int n = GET_LENGTH(svalue), i, len;
   char buf[4000];
@@ -146,7 +146,7 @@ R_deleteRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey,
 {
   USER_OBJECT_ ans;
   HKEY lkey;
-  char *tmp;
+  const char *tmp;
   LONG status = ERROR_SUCCESS;
 
   lkey = getOpenRegKey(hkey, path);
@@ -282,7 +282,7 @@ USER_OBJECT_
 R_setRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ skeyName, USER_OBJECT_ value, USER_OBJECT_ stype)
 {
   HKEY lkey;
-  char *name = NULL;
+  const char *name = NULL;
   DWORD type = INTEGER_DATA(stype)[0];
   BYTE *data;
   DWORD ndata = 0;
@@ -306,7 +306,7 @@ static HKEY
 getOpenRegKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
 {
   HKEY key, lkey;
-  char *name;
+  const char *name;
 
   key = resolveBuiltinKey(CHAR_DEREF(STRING_ELT(hkey, 0)));
   if(key == NULL) {
@@ -322,7 +322,7 @@ getOpenRegKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
       FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, //GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);      
-      PROBLEM "Can't open key %s (%d) %s", name, status, errBuf
+      PROBLEM "Can't open key %s (%ld) %s", name, status, errBuf
       ERROR;
     }
   } else 
@@ -335,7 +335,7 @@ SEXP
 R_registryKeyResolve(USER_OBJECT_ hkey, USER_OBJECT_ subKey, USER_OBJECT_ els)
 {
   HKEY key, lkey;
-  char *name;
+  const char *name;
   HRESULT status;
   SEXP ans = R_NilValue;
 
@@ -404,21 +404,21 @@ convertToRegistry(USER_OBJECT_ val, DWORD *nsize, DWORD targetType, const char *
     case REG_SZ:
     case REG_EXPAND_SZ:
       {
-       char *str; 
+       const char *str; 
        str = CHAR_DEREF(STRING_ELT(val, 0));
        *nsize = strlen(str)+1;
-       ans = S_alloc(*nsize, sizeof(DWORD));
+       ans = (BYTE*) S_alloc(*nsize, sizeof(DWORD));
        strcpy((char *) ans, str);
       }
       break;
     case REG_DWORD:
       if(TYPEOF(val) == INTSXP) {
         *nsize = sizeof(int);
-        ans = S_alloc(1, sizeof(int));
+        ans = (BYTE*) S_alloc(1, sizeof(int));
         *ans = INTEGER(val)[0];
       } else if(TYPEOF(val) == REALSXP) {
         *nsize = 1;
-        ans = S_alloc(*nsize, sizeof(DWORD));
+        ans = (BYTE*) S_alloc(*nsize, sizeof(DWORD));
         *ans = REAL(val)[0];
       }
       break;
