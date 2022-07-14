@@ -48,7 +48,7 @@ the key was created anew, this is \code{TRUE}.
  A logical value which is \code{TRUE}
  or else an error is thrown.
 }
-\item{flushRegistryKey} {
+\item{flushRegistryKey}{
  A logical value which is \code{TRUE}
  or else an error is thrown.
 }
