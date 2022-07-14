@@ -2,6 +2,7 @@
 
 #undef ERROR
 #include "RSCommon.h"
+#include "RError.h"
 
 static HKEY resolveBuiltinKey(const char * const name);
 static USER_OBJECT_ convertRegistryValueToS(BYTE *val, DWORD size, DWORD type);
@@ -27,7 +28,7 @@ R_createRegistryKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
 			  REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &key, &created);
   if(status != ERROR_SUCCESS) {
     char errBuf[1000];
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, // GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
     RegCloseKey(lkey);
@@ -113,7 +114,7 @@ R_ExpandEnvironmentStrings(USER_OBJECT_ svalue)
   return(ans);
 }
 
-_declspec(dllexport)
+__declspec(dllexport)
 USER_OBJECT_
 R_flushRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey)
 {
@@ -126,7 +127,7 @@ R_flushRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey)
 
   if(status != ERROR_SUCCESS) {
       char errBuf[1000];
-      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, // GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
       PROBLEM "Error flushing key: %s", errBuf
@@ -138,7 +139,7 @@ R_flushRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey)
   return(ans);
 }
 
-_declspec(dllexport)
+__declspec(dllexport)
 USER_OBJECT_
 R_deleteRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey, 
                 USER_OBJECT_ asKey, USER_OBJECT_ recursive)
@@ -161,7 +162,7 @@ R_deleteRegKey(USER_OBJECT_ hkey, USER_OBJECT_ path, USER_OBJECT_ subKey,
   if(status != ERROR_SUCCESS) {
       char errBuf[1000];
       RegCloseKey(lkey);
-      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, // GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
       PROBLEM "Error deleting %s (%s): (%d) %s ", 
@@ -209,7 +210,7 @@ R_getRegistryKeys(USER_OBJECT_ hkey, USER_OBJECT_ subKey, USER_OBJECT_ sgetInfo)
 
   if(status != ERROR_SUCCESS) {
       char errBuf[1000];
-      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, //GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
       RegCloseKey(lkey);
@@ -254,7 +255,7 @@ R_getRegistryKeys(USER_OBJECT_ hkey, USER_OBJECT_ subKey, USER_OBJECT_ sgetInfo)
 	WARN;
     } else {
       char errBuf[1000];
-      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, //GetLastError(), 
                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
                      errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);
       RegCloseKey(lkey);
@@ -315,8 +316,13 @@ getOpenRegKey(USER_OBJECT_ hkey, USER_OBJECT_ subKey)
   name = CHAR_DEREF(STRING_ELT(subKey, 0));
 
   if(name && name[0]) {
-    if(RegOpenKeyEx(key, name, 0, KEY_ALL_ACCESS, &lkey) != ERROR_SUCCESS) {
-      PROBLEM "Can't open key %s", name
+    LSTATUS status = RegOpenKeyEx(key, name, 0, KEY_ALL_ACCESS, &lkey);
+    if(status != ERROR_SUCCESS) {
+      char errBuf[1000];
+      FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, status, //GetLastError(), 
+                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
+                     errBuf, sizeof(errBuf)/sizeof(errBuf[0]), NULL);      
+      PROBLEM "Can't open key %s (%d) %s", name, status, errBuf
       ERROR;
     }
   } else 
