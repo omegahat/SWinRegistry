@@ -1,6 +1,6 @@
 useDynLib(SWinRegistry)
 
-imports(methods)
+import(methods)
 
 export(getRegistry)
 export(getRegistryKeyValues, setRegistryValue)
