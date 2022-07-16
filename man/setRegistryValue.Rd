@@ -20,13 +20,13 @@ setRegistryValue(path, key, value, type = .RegistryTypes["none"], top = .Builtin
    default conversion mechanism }
   \item{type}{type for the value that is to be put into the registry.
     This controls how the S value is converted to a value in the registry.}
-  \item{top}{}
+  \item{top}{the top-level key in the registry for this path}
 }
 \value{
  \code{NULL}, always!
 }
 \references{
- \url{http://www.omegahat.org/SWinRegistry}
+ \url{http://www.omegahat.net/SWinRegistry}
 }
 \author{Duncan Temple Lang <duncan@wald.ucdavis.edu>}
 

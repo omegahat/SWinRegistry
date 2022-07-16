@@ -15,7 +15,7 @@ createRegistryPath(path, top, isValue)
    in the Windows registry. This is resolved relative
    to the \code{top} element.
    }
-  \item{top}{}
+  \item{top}{the top-level key of the root of the registry}
   \item{isValue}{a logical value indicating whether the path 
    identifies a key or a value}
 }
@@ -40,13 +40,13 @@ createRegistryPath("SOFTWARE", 4, FALSE)
 
 
  # Nested path using a single string.
-createRegistryPath("SOFTWARE\\R-core\\R", 4, FALSE)
+createRegistryPath("SOFTWARE\\\\R-core\\\\R", 4, FALSE)
  # Nested path and a Value reference.
-createRegistryPath("SOFTWARE\\R-core\\R\\InstallPath", 4, TRUE)
+createRegistryPath("SOFTWARE\\\\R-core\\\\R\\\\InstallPath", 4, TRUE)
 
  # Mixing the forms in which we specify the path, elements and 
  # a single string with \\
-createRegistryPath(c("a", "b", "c", "x\\y\\z"), "HKEY_LOCAL_MACHINE", TRUE)
+createRegistryPath(c("a", "b", "c", "x\\\\y\\\\z"), "HKEY_LOCAL_MACHINE", TRUE)
 }
-\keyword{}
+\keyword{interface}
 

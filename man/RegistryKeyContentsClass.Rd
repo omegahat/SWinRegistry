@@ -35,7 +35,5 @@ No methods defined with class "RegistryKeyContents" in the signature.
  \code{\link{getRegistry}}
 }
 
-\examples{
-
-}
+%\examples{}
 \keyword{classes}

@@ -35,9 +35,6 @@ flushRegistryKey(path, top = .BuiltinKeys[1])
   \item{resolve}{a logical value indicating whether to check
    whether the key exists and whether it is a value or a key.}
 }
-\details{
-
-}
 \value{
 \item{createRegistryKey}{
  A logical value indicating whether the key was created or not.
@@ -67,7 +64,6 @@ the key was created anew, this is \code{TRUE}.
  \code{regedit.exe}
 }
 
-\examples{
-}
+%\examples{}
 \keyword{utilities}
 

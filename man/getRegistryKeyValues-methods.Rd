@@ -15,12 +15,12 @@ single value in the Windows registry.
 \section{Methods}{
 \describe{
 
-\item{path = "RegistryKeyPath", top = "missing"}{ ~~describe this method here }
-\item{path = "character"}{ ~~describe this method here }
+\item{path = "RegistryKeyPath", top = "missing"}{ given a path }
+\item{path = "character"}{ treat the character as a path }
 
 % getRegistryValue
-\item{path = "character"}{ ~~describe this method here }
-\item{path = "RegistryKeyPath"}{ ~~describe this method here }
+\item{path = "character"}{ treat the character vector as a path in the registry }
+\item{path = "RegistryKeyPath"}{ an actual path object }
 }}
 \keyword{methods}
 \keyword{utilities}

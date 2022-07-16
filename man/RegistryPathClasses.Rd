@@ -47,7 +47,5 @@ The constructor function is \code{\link{createRegistryPath}}.
 }
 \author{Duncan Temple Lang <duncan@wald.ucdavis.edu>}
 
-\examples{
-
-}
+%\examples{}
 \keyword{classes}

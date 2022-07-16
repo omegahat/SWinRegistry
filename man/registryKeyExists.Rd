@@ -43,7 +43,7 @@ exists and can be read.
 
 \examples{
   # See if R has been registered.
- registryKeyExists("HKEY_LOCAL_MACHINE\\Software\\R-core")
+ registryKeyExists("HKEY_LOCAL_MACHINE\\\\Software\\\\R-core")
 
   # See if SNormal is registerd.
   registryKeyExists("SNormal")

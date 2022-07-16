@@ -1,5 +1,6 @@
 \name{getRegistryKeyValues}
 \alias{getRegistryKeyValues}
+\alias{getRegistryKeyValues,character,ANY-method}
 \title{Contents of Registry Folder}
 \description{
  This retrieves all the key-value pairs in the specified
@@ -10,8 +11,8 @@ getRegistryKeyValues(path = "", top = .BuiltinKeys[1])
 }
 
 \arguments{
-  \item{path}{}
-  \item{top}{}
+  \item{path}{the path as a character vector of sequential elements or a single string with the successive keys separate by \code{\\\\}, or an actual Path object.}
+  \item{top}{the top-level key in the registry as the start of the pth}
 }
 
 \value{

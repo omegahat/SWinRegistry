@@ -16,9 +16,7 @@ getRegistry(path = character(0), top = .BuiltinKeys[1])
   \item{top}{the top-level key in which the path specification 
     is found.}
 }
-\details{
-
-}
+%\details{}
 \value{
   A list of length 2
   \item{values}{a list giving the key-value pairs in this key}

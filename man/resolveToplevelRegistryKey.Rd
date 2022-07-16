@@ -60,8 +60,8 @@
 }
 
 \examples{
-#  .resolveToplevelRegistryKey("", "HKEY_CURRENT_USER\\b\\c")
-  .resolveToplevelRegistryKey("HKEY_CURRENT_USER", "a\\b\\c")
+#  .resolveToplevelRegistryKey("", "HKEY_CURRENT_USER\\\\b\\\\c")
+  .resolveToplevelRegistryKey("HKEY_CURRENT_USER", "a\\\\b\\\\c")
   .resolveToplevelRegistryKey("HKEY_CURRENT_USER", c("a","b", "c"))
 }
 \keyword{utilities}

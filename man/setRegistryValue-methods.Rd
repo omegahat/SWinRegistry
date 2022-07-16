@@ -5,6 +5,7 @@
 \alias{setRegistryValue,character,missing-method}
 \alias{setRegistryValue,RegistryKeyPath,character-method}
 \alias{setRegistryValue,RegistryValuePath-method}
+\alias{setRegistryValue,RegistryValuePath,ANY-method}
 \title{Set Registry Value}
 \description{
  These methods allows the caller to set the value of a key in the registry.

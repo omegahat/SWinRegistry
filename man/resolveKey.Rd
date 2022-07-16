@@ -15,7 +15,6 @@ resolveKey(path = "", top = .BuiltinKeys[1])
     is found.}
 }
 \value{
-
 }
 
 \references{
@@ -24,8 +23,6 @@ resolveKey(path = "", top = .BuiltinKeys[1])
 \author{Duncan Temple Lang <duncan@wald.ucdavis.edu>}
 
 
-\examples{
-
-}
+%\examples{}
 \keyword{utilities}
 

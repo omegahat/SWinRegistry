@@ -9,7 +9,7 @@
 }
 \section{Methods}{
 \describe{
-\item{from = "RegistryKeyPath", to = "character"}{ ~~describe this method here }
+\item{from = "RegistryKeyPath", to = "character"}{ converts a path to a string with elements separated by \\\\ }
 }}
 \keyword{methods}
 \keyword{utilities}

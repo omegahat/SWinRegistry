@@ -14,8 +14,6 @@ getRegistrySubKeyNames(path = "", top = .BuiltinKeys[1])
   \item{top}{the top-level key in the registry  in which to resolve the path.
    This effectively identifies the branch in the registry tree.}
 }
-\details{
-}
 \value{
  A character vector giving the names of the subkeys
  within this key that are themselves keys,  and not 
